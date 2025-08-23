@@ -7,7 +7,7 @@
   AWSインフラ構築スキルを証明するポートフォリオ作成プロジェクトです。
 
   ##  システム構成
-
+```
   ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
   │   CloudFront    │────│       ALB        │────│   ECS/Fargate   │
   │   (Static Web)  │    │  (Load Balancer) │    │ (Python API)    │
@@ -24,7 +24,7 @@
                           │   CloudWatch    │
                           │  (Monitoring)   │
                           └─────────────────┘
-
+```
   ### 主要コンポーネント
   - **フロントエンド**: S3 + CloudFront (静的サイトホスティング)
   - **バックエンドAPI**: Python (Flask/FastAPI) on ECS/Fargate
