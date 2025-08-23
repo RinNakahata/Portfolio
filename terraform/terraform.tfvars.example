@@ -1,0 +1,125 @@
+# Portfolio AWS Infrastructure - Example Variables
+# Copy this file to terraform.tfvars and customize the values
+
+# ==============================================================================
+# PROJECT CONFIGURATION
+# ==============================================================================
+
+project_name = "portfolio"
+environment  = "development"
+aws_region   = "ap-northeast-1"
+
+# ==============================================================================
+# NETWORK CONFIGURATION
+# ==============================================================================
+
+vpc_cidr = "10.0.0.0/16"
+
+public_subnet_cidrs = [
+  "10.0.1.0/24",   # ap-northeast-1a
+  "10.0.2.0/24"    # ap-northeast-1c
+]
+
+private_subnet_cidrs = [
+  "10.0.11.0/24",  # ap-northeast-1a
+  "10.0.12.0/24"   # ap-northeast-1c
+]
+
+# Cost optimization: Disable NAT Gateway for development
+enable_nat_gateway = false
+
+# ==============================================================================
+# APPLICATION CONFIGURATION
+# ==============================================================================
+
+app_port           = 8000
+app_count          = 1
+health_check_path  = "/health"
+
+# ==============================================================================
+# ECS CONFIGURATION
+# ==============================================================================
+
+fargate_cpu    = 256   # 0.25 vCPU
+fargate_memory = 512   # 512 MB
+
+# Container image (update after ECR push)
+container_image = "nginx:alpine"
+
+# ==============================================================================
+# AUTO SCALING CONFIGURATION
+# ==============================================================================
+
+# Enable auto scaling
+enable_auto_scaling = true
+
+# Scaling limits
+autoscaling_min_capacity = 1
+autoscaling_max_capacity = 3
+
+# Scaling thresholds
+autoscaling_target_cpu    = 70
+autoscaling_target_memory = 80
+
+# ==============================================================================
+# MONITORING CONFIGURATION
+# ==============================================================================
+
+log_retention_in_days    = 30
+enable_detailed_monitoring = false
+
+# ==============================================================================
+# SECURITY CONFIGURATION
+# ==============================================================================
+
+# Allow access from anywhere (development only)
+allowed_cidr_blocks = ["0.0.0.0/0"]
+
+# Disable deletion protection for development
+enable_deletion_protection = false
+
+# ==============================================================================
+# COST OPTIMIZATION
+# ==============================================================================
+
+# Development cost optimization
+enable_cost_optimization = true
+enable_spot_instances    = false
+
+# ==============================================================================
+# FEATURE FLAGS
+# ==============================================================================
+
+enable_cloudfront     = true
+enable_auto_scaling   = true
+enable_load_balancer  = true
+create_dynamodb_tables = true
+
+# ==============================================================================
+# DYNAMODB CONFIGURATION
+# ==============================================================================
+
+dynamodb_billing_mode = "PAY_PER_REQUEST"
+enable_dynamodb_point_in_time_recovery = true
+
+# ==============================================================================
+# TERRAFORM STATE CONFIGURATION
+# ==============================================================================
+
+# Update with your actual S3 bucket name
+terraform_state_bucket = "portfolio-terraform-state-20250823"
+terraform_state_key    = "portfolio/terraform.tfstate"
+terraform_lock_table   = "portfolio-terraform-lock"
+
+# ==============================================================================
+# COMMON TAGS
+# ==============================================================================
+
+common_tags = {
+  Project     = "Portfolio"
+  Environment = "development"
+  ManagedBy   = "Terraform"
+  Owner       = "Portfolio-Developer"
+  CostCenter  = "Development"
+  Repository  = "portfolio-aws-infrastructure"
+}
