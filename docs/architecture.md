@@ -260,7 +260,7 @@ graph LR
 
 ---
 
-## 📚 参考資料
+##  参考資料
 
 - [AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/)
 - [AWS ECS Best Practices](https://docs.aws.amazon.com/AmazonECS/latest/bestpracticesguide/)
