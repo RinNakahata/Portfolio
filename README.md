@@ -6,6 +6,8 @@
   ご覧いただきありがとうございます。  
   本リポジトリは、AWS環境におけるインフラ構築スキルをご確認いただくために作成しました。
 
+
+
   ##  システム構成
 ```
   ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
@@ -25,6 +27,8 @@
                           │  (Monitoring)   │
                           └─────────────────┘
 ```
+
+
   ### 主要コンポーネント
   - **フロントエンド**: S3 + CloudFront (静的サイトホスティング)
   - **バックエンドAPI**: Python (Flask/FastAPI) on ECS/Fargate
@@ -32,6 +36,8 @@
   - **インフラ管理**: Terraform (Infrastructure as Code)
   - **コンテナ化**: Docker
   - **監視**: CloudWatch + CloudWatch Logs
+
+
 
   ##  プロジェクト構造
 ```
@@ -43,12 +49,16 @@
   └── .github/workflows/ # CI/CD設定
 ```
 
+
+
   ##  開発環境
 
   - **メイン開発**: WSL2 Ubuntu 22.04
   - **ドキュメント作成**: GitHub Web Editor
   - **インフラ管理**: Terraform
   - **コンテナ**: Docker & Docker Compose
+
+
 
   ##  技術スタック
 
@@ -66,6 +76,8 @@
   - Git & GitHub
   - GitHub Actions (CI/CD)
   - AWS CLI
+
+
 
   ##  ドキュメント
 
@@ -93,6 +105,8 @@
   # アプリケーションデプロイ
   cd ../scripts
   ./deploy.sh
+```
+
 
    開発ステータス
 
