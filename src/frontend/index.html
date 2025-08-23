@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Infrastructure Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <h1 class="nav-title">AWS Portfolio</h1>
+                <ul class="nav-menu">
+                    <li><a href="#overview">概要</a></li>
+                    <li><a href="#architecture">アーキテクチャ</a></li>
+                    <li><a href="#api">API</a></li>
+                    <li><a href="#monitoring">監視</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h1 class="hero-title">AWS Infrastructure Portfolio</h1>
+                <p class="hero-subtitle">
+                    モダンなクラウドインフラストラクチャの構築実例
+                </p>
+                <div class="hero-buttons">
+                    <a href="#architecture" class="btn btn-primary">アーキテクチャを見る</a>
+                    <a href="#api" class="btn btn-secondary">API仕様を確認</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Overview Section -->
+        <section id="overview" class="section">
+            <div class="container">
+                <h2 class="section-title">プロジェクト概要</h2>
+                <div class="grid">
+                    <div class="card">
+                        <i class="fas fa-cloud card-icon"></i>
+                        <h3>AWS Native</h3>
+                        <p>ECS/Fargate、DynamoDB、S3+CloudFrontを活用したサーバーレス構成</p>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-code card-icon"></i>
+                        <h3>Infrastructure as Code</h3>
+                        <p>Terraformによる完全自動化されたインフラ構築</p>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-docker card-icon"></i>
+                        <h3>コンテナ化</h3>
+                        <p>Dockerによるアプリケーション標準化と可搬性の実現</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Section -->
+        <section id="architecture" class="section bg-gray">
+            <div class="container">
+                <h2 class="section-title">システムアーキテクチャ</h2>
+                <div class="architecture-content">
+                    <div class="architecture-image">
+                        <img src="https://via.placeholder.com/600x400/4CAF50/white?text=AWS+Architecture+Diagram" 
+                             alt="AWS Architecture Diagram" 
+                             class="diagram-image">
+                    </div>
+                    <div class="architecture-description">
+                        <h3>主要コンポーネント</h3>
+                        <ul class="tech-list">
+                            <li><i class="fab fa-aws"></i> <strong>Amazon ECS/Fargate</strong> - サーバーレスコンテナ実行</li>
+                            <li><i class="fas fa-balance-scale"></i> <strong>Application Load Balancer</strong> - 負荷分散</li>
+                            <li><i class="fas fa-database"></i> <strong>DynamoDB</strong> - NoSQLデータベース</li>
+                            <li><i class="fas fa-globe"></i> <strong>S3 + CloudFront</strong> - 静的サイトCDN</li>
+                            <li><i class="fas fa-chart-line"></i> <strong>CloudWatch</strong> - 監視・ログ管理</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- API Section -->
+        <section id="api" class="section">
+            <div class="container">
+                <h2 class="section-title">API機能</h2>
+                <div class="api-demo">
+                    <div class="api-controls">
+                        <h3>API テスト</h3>
+                        <div class="form-group">
+                            <label for="api-endpoint">エンドポイント:</label>
+                            <select id="api-endpoint" class="form-control">
+                                <option value="/health">GET /health</option>
+                                <option value="/users">GET /users</option>
+                                <option value="/metrics">GET /metrics</option>
+                                <option value="/metrics/latest">GET /metrics/latest</option>
+                            </select>
+                        </div>
+                        <button id="test-api" class="btn btn-primary">APIテスト実行</button>
+                    </div>
+                    <div class="api-response">
+                        <h3>レスポンス</h3>
+                        <pre id="api-result" class="code-block">APIテストボタンをクリックしてください</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Monitoring Section -->
+        <section id="monitoring" class="section bg-gray">
+            <div class="container">
+                <h2 class="section-title">システム監視</h2>
+                <div class="monitoring-grid">
+                    <div class="metric-card">
+                        <h3>API応答時間</h3>
+                        <div class="metric-value" id="response-time">--</div>
+                        <div class="metric-unit">ms</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>リクエスト数</h3>
+                        <div class="metric-value" id="request-count">--</div>
+                        <div class="metric-unit">/min</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>エラー率</h3>
+                        <div class="metric-value" id="error-rate">--</div>
+                        <div class="metric-unit">%</div>
+                    </div>
+                    <div class="metric-card">
+                        <h3>システム状態</h3>
+                        <div class="metric-value status" id="system-status">稼働中</div>
+                        <div class="metric-unit"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>技術スタック</h3>
+                    <ul>
+                        <li>AWS (ECS, ALB, DynamoDB, S3, CloudFront)</li>
+                        <li>Terraform (Infrastructure as Code)</li>
+                        <li>Docker (コンテナ化)</li>
+                        <li>Python FastAPI (Backend API)</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>リンク</h3>
+                    <ul>
+                        <li><a href="https://github.com/[username]/portfolio-aws-infrastructure" target="_blank">
+                            <i class="fab fa-github"></i> GitHub リポジトリ
+                        </a></li>
+                        <li><a href="#api">
+                            <i class="fas fa-code"></i> API ドキュメント
+                        </a></li>
+                        <li><a href="docs/01-architecture.md" target="_blank">
+                            <i class="fas fa-file-alt"></i> 設計書
+                        </a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>お問い合わせ</h3>
+                    <p>ポートフォリオプロジェクト</p>
+                    <p>AWS Infrastructure Specialist</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 AWS Infrastructure Portfolio. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
