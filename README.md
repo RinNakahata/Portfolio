@@ -1,5 +1,7 @@
   # Rin Nakahata Portfolio
 
+
+
   ##  リポジトリ概要
   ご覧いただきありがとうございます。  
   本リポジトリは、AWS環境におけるインフラ構築スキルをご確認いただくために作成しました。
@@ -32,13 +34,14 @@
   - **監視**: CloudWatch + CloudWatch Logs
 
   ##  プロジェクト構造
-
+```
   ├── terraform/          # Terraformインフラコード
   ├── src/                # Pythonアプリケーションソース
   ├── docker/            # Docker関連設定
   ├── docs/              # 設計ドキュメント
   ├── scripts/           # デプロイ・運用スクリプト
   └── .github/workflows/ # CI/CD設定
+```
 
   ##  開発環境
 
