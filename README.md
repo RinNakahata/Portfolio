@@ -93,7 +93,7 @@
   ### デプロイ手順
   ```bash
   # リポジトリクローン
-  git clone https://github.com/[username]/portfolio-aws-infrastructure.git
+  git clone https://github.com/RinNakahata/portfolio-aws-infrastructure.git
   cd portfolio-aws-infrastructure
 
   # インフラ構築
