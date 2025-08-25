@@ -39,7 +39,7 @@ variable "public_subnet_cidrs" {
 }
 
 variable "private_subnet_cidrs" {
-  description = "CIDR blocks for private subnets"  
+  description = "CIDR blocks for private subnets"
   type        = list(string)
   default     = ["10.0.11.0/24", "10.0.12.0/24"]
 }
@@ -91,7 +91,7 @@ variable "fargate_memory" {
 variable "container_image" {
   description = "Docker image to run in the ECS cluster"
   type        = string
-  default     = "nginx:alpine"  # Placeholder, will be updated with ECR image
+  default     = "nginx:alpine" # Placeholder, will be updated with ECR image
 }
 
 # ==============================================================================
@@ -206,7 +206,7 @@ variable "dynamodb_billing_mode" {
   description = "DynamoDB billing mode (PROVISIONED or PAY_PER_REQUEST)"
   type        = string
   default     = "PAY_PER_REQUEST"
-  
+
   validation {
     condition     = contains(["PROVISIONED", "PAY_PER_REQUEST"], var.dynamodb_billing_mode)
     error_message = "DynamoDB billing mode must be either PROVISIONED or PAY_PER_REQUEST."
@@ -241,7 +241,7 @@ variable "common_tags" {
 variable "terraform_state_bucket" {
   description = "S3 bucket name for storing Terraform state"
   type        = string
-  default     = "portfolio-terraform-state-20250823"  # Update with your actual bucket name
+  default     = "portfolio-terraform-state-20250823" # Update with your actual bucket name
 }
 
 variable "terraform_state_key" {

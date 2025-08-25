@@ -2,20 +2,25 @@
 
 terraform {
   required_version = ">= 1.0"
-  
+
   required_providers {
     aws = {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
+
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.4"
+    }
   }
-  
+
   # Terraform State Management
   backend "s3" {
     bucket = "portfolio-terraform-state-20250823"
     key    = "portfolio/terraform.tfstate"
     region = "ap-northeast-1"
-    
+
     # State locking
     dynamodb_table = "portfolio-terraform-lock"
     encrypt        = true
@@ -25,7 +30,7 @@ terraform {
 # AWS Provider Configuration
 provider "aws" {
   region = var.aws_region
-  
+
   default_tags {
     tags = {
       Project     = "Portfolio"
@@ -101,7 +106,7 @@ resource "aws_subnet" "private" {
 resource "aws_eip" "nat" {
   count = var.enable_nat_gateway ? length(var.public_subnet_cidrs) : 0
 
-  domain = "vpc"
+  domain     = "vpc"
   depends_on = [aws_internet_gateway.main]
 
   tags = {
@@ -309,7 +314,7 @@ resource "aws_ecs_cluster" "main" {
   configuration {
     execute_command_configuration {
       logging = "OVERRIDE"
-      
+
       log_configuration {
         cloud_watch_log_group_name = aws_cloudwatch_log_group.ecs.name
       }
@@ -354,9 +359,9 @@ resource "aws_cloudwatch_log_group" "ecs" {
 
 # Users Table
 resource "aws_dynamodb_table" "users" {
-  name           = "${var.project_name}-users"
-  billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "user_id"
+  name         = "${var.project_name}-users"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "user_id"
 
   attribute {
     name = "user_id"
@@ -374,13 +379,15 @@ resource "aws_dynamodb_table" "users" {
   }
 
   global_secondary_index {
-    name     = "username-index"
-    hash_key = "username"
+    name            = "username-index"
+    hash_key        = "username"
+    projection_type = "ALL"
   }
 
   global_secondary_index {
-    name     = "email-index"
-    hash_key = "email"
+    name            = "email-index"
+    hash_key        = "email"
+    projection_type = "ALL"
   }
 
   server_side_encryption {
@@ -398,10 +405,10 @@ resource "aws_dynamodb_table" "users" {
 
 # Metrics Table
 resource "aws_dynamodb_table" "metrics" {
-  name           = "${var.project_name}-metrics"
-  billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "device_id"
-  range_key      = "timestamp"
+  name         = "${var.project_name}-metrics"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "device_id"
+  range_key    = "timestamp"
 
   attribute {
     name = "device_id"
@@ -419,15 +426,17 @@ resource "aws_dynamodb_table" "metrics" {
   }
 
   global_secondary_index {
-    name     = "timestamp-index"
-    hash_key = "timestamp"
-    range_key = "device_id"
+    name            = "timestamp-index"
+    hash_key        = "timestamp"
+    range_key       = "device_id"
+    projection_type = "ALL"
   }
 
   global_secondary_index {
-    name     = "status-index"
-    hash_key = "status"
-    range_key = "timestamp"
+    name            = "status-index"
+    hash_key        = "status"
+    range_key       = "timestamp"
+    projection_type = "ALL"
   }
 
   server_side_encryption {
@@ -494,8 +503,8 @@ resource "aws_s3_bucket_policy" "static_website" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid       = "AllowCloudFrontServicePrincipal"
-        Effect    = "Allow"
+        Sid    = "AllowCloudFrontServicePrincipal"
+        Effect = "Allow"
         Principal = {
           Service = "cloudfront.amazonaws.com"
         }
@@ -647,40 +656,6 @@ resource "aws_iam_role_policy" "ecs_task_dynamodb" {
       }
     ]
   })
-}
-
-# ==============================================================================
-# OUTPUTS
-# ==============================================================================
-
-# VPC
-output "vpc_id" {
-  description = "ID of the VPC"
-  value       = aws_vpc.main.id
-}
-
-# ALB
-output "alb_dns_name" {
-  description = "DNS name of the load balancer"
-  value       = aws_lb.main.dns_name
-}
-
-# CloudFront
-output "cloudfront_domain_name" {
-  description = "Domain name of the CloudFront distribution"
-  value       = aws_cloudfront_distribution.main.domain_name
-}
-
-# S3 Bucket
-output "s3_bucket_name" {
-  description = "Name of the S3 bucket for static website"
-  value       = aws_s3_bucket.static_website.bucket
-}
-
-# ECR Repository
-output "ecr_repository_url" {
-  description = "URL of the ECR repository"
-  value       = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/portfolio-api"
 }
 
 # Data source for account ID

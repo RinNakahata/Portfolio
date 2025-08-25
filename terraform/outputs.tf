@@ -226,16 +226,16 @@ output "static_website_url" {
 output "deployment_summary" {
   description = "Summary of the deployed infrastructure"
   value = {
-    project_name                = var.project_name
-    environment                 = var.environment
-    region                      = var.aws_region
-    vpc_id                      = aws_vpc.main.id
-    application_url             = "http://${aws_lb.main.dns_name}"
-    static_website_url          = "https://${aws_cloudfront_distribution.main.domain_name}"
-    ecs_cluster_name           = aws_ecs_cluster.main.name
-    dynamodb_users_table       = aws_dynamodb_table.users.name
-    dynamodb_metrics_table     = aws_dynamodb_table.metrics.name
-    s3_bucket_name             = aws_s3_bucket.static_website.bucket
-    ecr_repository             = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/portfolio-api"
+    project_name           = var.project_name
+    environment            = var.environment
+    region                 = var.aws_region
+    vpc_id                 = aws_vpc.main.id
+    application_url        = "http://${aws_lb.main.dns_name}"
+    static_website_url     = "https://${aws_cloudfront_distribution.main.domain_name}"
+    ecs_cluster_name       = aws_ecs_cluster.main.name
+    dynamodb_users_table   = aws_dynamodb_table.users.name
+    dynamodb_metrics_table = aws_dynamodb_table.metrics.name
+    s3_bucket_name         = aws_s3_bucket.static_website.bucket
+    ecr_repository         = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/portfolio-api"
   }
 }
