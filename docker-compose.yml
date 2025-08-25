@@ -1,0 +1,99 @@
+# Portfolio AWS Infrastructure - Docker Compose Configuration
+# ローカル開発環境用
+
+version: '3.8'
+
+services:
+  # Python FastAPI Application
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: portfolio-api
+    ports:
+      - "8000:8000"
+    environment:
+      # アプリケーション設定
+      - DEBUG=true
+      - LOG_LEVEL=DEBUG
+      
+      # AWS設定 (ローカル開発用)
+      - AWS_REGION=ap-northeast-1
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
+      
+      # DynamoDB設定 (ローカル開発用)
+      - DYNAMODB_ENDPOINT_URL=http://dynamodb-local:8000
+      - DYNAMODB_USERS_TABLE=portfolio-users-local
+      - DYNAMODB_METRICS_TABLE=portfolio-metrics-local
+      
+      # CORS設定
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:8080,http://localhost:8000
+    volumes:
+      - ./src:/app:ro  # 開発時の hot reload 用
+    depends_on:
+      - dynamodb-local
+    networks:
+      - portfolio-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # DynamoDB Local (開発用)
+  dynamodb-local:
+    image: amazon/dynamodb-local:latest
+    container_name: portfolio-dynamodb-local
+    ports:
+      - "8001:8000"  # 外部から8001ポートでアクセス可能
+    command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-dbPath", "./data"]
+    volumes:
+      - dynamodb_data:/home/dynamodblocal/data
+    networks:
+      - portfolio-network
+    restart: unless-stopped
+
+  # DynamoDB Admin UI (開発用)
+  dynamodb-admin:
+    image: aaronshaf/dynamodb-admin:latest
+    container_name: portfolio-dynamodb-admin
+    ports:
+      - "8002:8001"
+    environment:
+      - DYNAMO_ENDPOINT=http://dynamodb-local:8000
+    depends_on:
+      - dynamodb-local
+    networks:
+      - portfolio-network
+    restart: unless-stopped
+
+  # Nginx Reverse Proxy (本番想定)
+  nginx:
+    image: nginx:alpine
+    container_name: portfolio-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - ./src/frontend:/usr/share/nginx/html:ro
+    depends_on:
+      - api
+    networks:
+      - portfolio-network
+    restart: unless-stopped
+    profiles: ["production"]  # production プロファイルでのみ起動
+
+volumes:
+  dynamodb_data:
+    driver: local
+
+networks:
+  portfolio-network:
+    driver: bridge
+    name: portfolio-network

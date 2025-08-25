@@ -1,0 +1,52 @@
+# Portfolio AWS Infrastructure - Development Environment
+# 開発者向けの拡張設定
+
+version: '3.8'
+
+services:
+  # Development API with hot reload
+  api-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: portfolio-api-dev
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=true
+      - LOG_LEVEL=DEBUG
+      - DYNAMODB_ENDPOINT_URL=http://dynamodb-local:8000
+    volumes:
+      - ./src:/app  # Read-write for development
+      - /app/__pycache__  # Exclude cache
+    depends_on:
+      - dynamodb-local
+    networks:
+      - portfolio-network
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+  # Frontend development server
+  frontend-dev:
+    image: nginx:alpine
+    container_name: portfolio-frontend-dev
+    ports:
+      - "3000:80"
+    volumes:
+      - ./src/frontend:/usr/share/nginx/html:ro
+    networks:
+      - portfolio-network
+    restart: unless-stopped
+
+  # Redis for caching (development)
+  redis-dev:
+    image: redis:7-alpine
+    container_name: portfolio-redis-dev
+    ports:
+      - "6379:6379"
+    networks:
+      - portfolio-network
+    restart: unless-stopped
+
+networks:
+  portfolio-network:
+    external: true
