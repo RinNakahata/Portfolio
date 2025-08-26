@@ -166,7 +166,7 @@ portfolio-aws-infrastructure/
 ### **ローカル環境起動**
 ```bash
 # リポジトリクローン
-git clone <repository-url>
+git clone https://github.com/RinNakahata/Portfolio.git
 cd portfolio-aws-infrastructure
 
 # 依存関係インストール
