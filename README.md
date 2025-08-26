@@ -1,195 +1,265 @@
-  # Rin Nakahata Portfolio
+#  Rin Nakahata's Portfolio
 
+初めまして。中畑 倫と申します。
+ご覧いただきありがとうございます。
 
+##  プロジェクト概要
 
-  ##  ご挨拶
-  ご覧いただきありがとうございます。
-  本ポートフォリオは、AWS環境におけるインフラ構築スキルをご確認いただくために作成しました。
+このプロジェクトは、AWS環境構築スキルを証明するための包括的なポートフォリオです。インフラストラクチャ・アズ・コード（IaC）、コンテナ化、CI/CD、モニタリングなど、実務で求められるスキルを網羅的に実装しています。
 
-  ##  ポートフォリオ概要
+##  主要機能
 
-  **モダンなクラウドネイティブアプリケーション**を想定。
-  以下の機能を提供する、実用的なWebアプリケーション・API基盤として設計しました。
+###  インフラストラクチャ
+- **VPC設計**: マルチAZ構成のセキュアなネットワーク
+- **ECS/Fargate**: サーバーレスコンテナオーケストレーション
+- **ALB**: 高可用性ロードバランサー
+- **DynamoDB**: フルマネージドNoSQLデータベース
+- **S3 + CloudFront**: 静的コンテンツ配信
+- **ECR**: コンテナイメージレジストリ
+- **CloudWatch**: 包括的なモニタリング・ログ管理
 
-  ###  機能概要
+###  バックエンドAPI
+- **FastAPI**: 高速なPython Webフレームワーク
+- **Pydantic**: データバリデーション・シリアライゼーション
+- **DynamoDB統合**: 完全なCRUD操作
+- **構造化ログ**: 運用性を重視したログ出力
+- **包括的エラーハンドリング**: カスタム例外クラスとハンドラー
 
-  #### **RESTful API機能**
-  - **ユーザー管理**: ユーザー登録、認証、プロフィール管理
-  - **メトリクス管理**: IoTデバイスやシステムメトリクスの収集・分析
-  - **リアルタイム監視**: システム状態のリアルタイム監視とアラート
-  - **ヘルスチェック**: アプリケーションとデータベース接続の健全性確認
+###  フロントエンド
+- **レスポンシブデザイン**: モダンなUI/UX
+- **リアルタイム更新**: メトリクスデータの動的表示
+- **ダッシュボード**: 直感的なデータ可視化
 
-  #### **Webインターフェース**
-  - **管理ダッシュボード**: システム状態とメトリクスの可視化
-  - **API テストツール**: ブラウザから直接APIをテスト可能
-  - **リアルタイム更新**: 監視データのライブ更新表示
-  - **レスポンシブデザイン**: モバイル・デスクトップ対応
+###  CI/CD
+- **GitHub Actions**: 自動化されたデプロイメント
+- **Terraform**: インフラの自動プロビジョニング
+- **マルチ環境対応**: 開発・ステージング・本番環境
 
-  #### **インフラストラクチャ機能**
-  - **自動スケーリング**: トラフィックに応じた自動スケールアウト/イン
-  - **高可用性**: 複数AZでの冗長構成
-  - **CDN配信**: CloudFrontによる高速コンテンツ配信
-  - **ロードバランシング**: ALBによる負荷分散
-  - **セキュアな通信**: HTTPS/TLS暗号化
+##  システムアーキテクチャ
 
-  ###  技術的な特徴
-  - **Infrastructure as Code**: Terraformによる完全自動化
-  - **コンテナ化**: Dockerによる環境の標準化
-  - **CI/CD**: GitHub Actionsによる自動デプロイ
-  - **監視・ログ**: CloudWatch統合監視
-  - **コスト最適化**: サーバーレス・オンデマンド課金設計
-
-
-
-  ##  システム構成
+**静的コンテンツフロー (上部):**
 ```
-  ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-  │   CloudFront    │────│       ALB        │────│   ECS/Fargate   │
-  │   (Static Web)  │    │  (Load Balancer) │    │ (Python API)    │
-  └─────────────────┘    └──────────────────┘    └─────────────────┘
-           │                        │                        │
-           ▼                        │                        ▼
-  ┌─────────────────┐               │              ┌─────────────────┐
-  │       S3        │               │              │    DynamoDB     │
-  │  (Static Files) │               │              │   (Database)    │
-  └─────────────────┘               │              └─────────────────┘
-                                    │
-                                    ▼
-                          ┌─────────────────┐
-                          │   CloudWatch    │
-                          │  (Monitoring)   │
-                          └─────────────────┘
+User Request → CloudFront (CDN) → S3 (Static Files)
 ```
 
-
-  ### 主要コンポーネント
-  - **フロントエンド**: S3 + CloudFront (静的サイトホスティング)
-  - **バックエンドAPI**: Python (Flask/FastAPI) on ECS/Fargate
-  - **データベース**: DynamoDB
-  - **インフラ管理**: Terraform (Infrastructure as Code)
-  - **コンテナ化**: Docker
-  - **監視**: CloudWatch + CloudWatch Logs
-
-
-
-  ##  プロジェクト構造
+**動的APIフロー (下部):**
 ```
-  ├── terraform/          # Terraformインフラコード
-  ├── src/                # Pythonアプリケーションソース
-  ├── docker/            # Docker関連設定
-  ├── docs/              # 設計ドキュメント
-  ├── scripts/           # デプロイ・運用スクリプト
-  └── .github/workflows/ # CI/CD設定
+User Request → ALB/ELB → ECS/Fargate → DynamoDB → CloudWatch
 ```
 
+**詳細なアーキテクチャ図:**
+```
++--------------+     +--------------+     +--------------+
+|    User      | --> |  CloudFront  | --> |      S3      |
+|   Request    |     |    (CDN)     |     |(Static Files)|
++--------------+     +--------------+     +--------------+
+        |
+        v
++--------------+     +--------------+     +--------------+     +--------------+
+|   ALB/ELB    | --> | ECS/Fargate  | --> |   DynamoDB   | --> |  CloudWatch  |
+| Load Balancer|     | Python API   |     |  (Database)  |     | (Monitoring) |
++--------------+     +--------------+     +--------------+     +--------------+
 
+```
 
-  ##  開発環境
+**フロー説明:**
 
-  - **メイン開発**: WSL2 Ubuntu 22.04
-  - **ドキュメント作成**: GitHub Web Editor
-  - **インフラ管理**: Terraform
-  - **コンテナ**: Docker & Docker Compose
+1. **静的コンテンツフロー**:
+   - ユーザーリクエスト → CloudFront CDN → S3静的ファイル
+   - フロントエンド・HTML/CSS/JS・画像ファイルの配信
 
+2. **動的APIフロー**:
+   - ユーザーリクエスト → ALB負荷分散 → ECS/Fargateコンテナ → DynamoDBデータベース → CloudWatch監視
+   - バックエンドAPI・データ処理・システム監視
 
+##  プロジェクト構造
 
-  ##  技術スタック
+```
+portfolio-aws-infrastructure/
+├── 📁 docs/                          # 設計・運用ドキュメント
+│   ├── 01-architecture.md            # システムアーキテクチャ
+│   ├── 02-system-requirements.md     # システム要件定義
+│   ├── 03-technology-selection.md    # 技術選定書
+│   ├── 04-api-specification.md       # API仕様書
+│   ├── 05-database-design.md         # データベース設計書
+│   ├── 06-infrastructure-design.md   # インフラ設計書
+│   ├── 07-security-design.md         # セキュリティ設計書
+│   ├── 08-operations-checklist.md    # 運用項目一覧
+│   ├── 09-management-ledger.md       # 管理台帳
+│   ├── 10-operations-report.md       # 運用報告書
+│   └── 11-troubleshooting-guide.md   # トラブルシューティングガイド
+├── 📁 src/                           # アプリケーションソース
+│   ├── 📁 app/                       # メインアプリケーション
+│   │   ├── 📁 core/                  # コア機能
+│   │   │   ├── config.py             # 設定管理
+│   │   │   ├── logging.py            # ログ設定
+│   │   │   ├── exceptions.py         # カスタム例外クラス
+│   │   │   └── error_handlers.py     # エラーハンドラー
+│   │   ├── 📁 models/                # データモデル
+│   │   │   ├── user.py               # ユーザーモデル
+│   │   │   └── metric.py             # メトリクスモデル
+│   │   ├── 📁 routers/               # APIルーター
+│   │   │   ├── health.py             # ヘルスチェック
+│   │   │   ├── users.py              # ユーザー管理
+│   │   │   └── metrics.py            # メトリクス管理
+│   │   ├── 📁 services/              # ビジネスロジック
+│   │   │   ├── user_service.py       # ユーザーサービス
+│   │   │   └── metric_service.py     # メトリクスサービス
+│   │   └── dependencies.py           # 依存関係管理
+│   ├── 📁 frontend/                  # フロントエンド
+│   │   ├── index.html                # メインページ
+│   │   ├── style.css                 # スタイルシート
+│   │   └── script.js                 # JavaScript
+│   ├── main.py                       # アプリケーションエントリーポイント
+│   └── requirements.txt              # Python依存関係
+├── 📁 tests/                         # テストコード
+│   ├── conftest.py                   # pytest設定・フィクスチャ
+│   ├── test_user_service.py          # ユーザーサービステスト
+│   ├── test_metric_service.py        # メトリクスサービステスト
+│   └── test_api_integration.py       # API統合テスト
+├── 📁 terraform/                     # インフラストラクチャ・アズ・コード
+│   ├── main.tf                       # メイン設定
+│   ├── variables.tf                  # 変数定義
+│   ├── outputs.tf                    # 出力定義
+│   └── versions.tf                   # プロバイダーバージョン
+├── 📁 .github/                       # GitHub Actions
+│   └── 📁 workflows/
+│       └── deploy.yml                # CI/CDパイプライン
+├── 📁 docker/                        # Docker設定
+├── docker-compose.yml                # ローカル開発環境
+├── pytest.ini                        # pytest設定
+└── README.md                         # プロジェクト概要
+```
 
-  ### インフラストラクチャ
-  - AWS (ECS, ALB, DynamoDB, S3, CloudFront, CloudWatch)
-  - Terraform
-  - Docker
+##  技術スタック
 
-  ### アプリケーション
-  - Python 3.x
-  - Flask/FastAPI
-  - boto3 (AWS SDK)
+### **インフラストラクチャ**
+- **AWS**: VPC, ECS/Fargate, ALB, DynamoDB, S3, CloudFront, ECR, CloudWatch, IAM
+- **Terraform**: AWS Provider 5.0, インフラの自動化
+- **Docker**: コンテナ化、マルチステージビルド
 
-  ### 開発・運用
-  - Git & GitHub
-  - GitHub Actions (CI/CD)
-  - AWS CLI
+### **バックエンド**
+- **Python 3.11**: 高速で保守性の高い言語
+- **FastAPI**: 非同期対応、自動APIドキュメント生成
+- **Pydantic**: データバリデーション、型安全性
+- **Boto3**: AWS SDK for Python
 
+### **フロントエンド**
+- **HTML5/CSS3**: セマンティックマークアップ、レスポンシブデザイン
+- **JavaScript (ES6+)**: モダンなJavaScript機能
+- **Chart.js**: データ可視化ライブラリ
 
+### **開発・運用**
+- **GitHub Actions**: CI/CDパイプライン
+- **pytest**: 包括的なテストフレームワーク
+- **Black/Flake8**: コード品質管理
+- **構造化ログ**: 運用性を重視したログ出力
 
-  ##  ドキュメント
+##  開発環境セットアップ
 
-  ###  設計・仕様書
-  - 詳細な設計書やAPI仕様書は [`docs/`](docs/) ディレクトリに格納されています
+### **前提条件**
+- Python 3.11+
+- Docker & Docker Compose
+- AWS CLI (本番環境用)
+- Terraform (本番環境用)
 
-  ###  開発・運用ドキュメント
-  - [`TODO.md`](TODO.md) - 詳細な作業計画・進捗管理
-  - [`.env.example`](.env.example) - 環境設定ファイルテンプレート
+### **ローカル環境起動**
+```bash
+# リポジトリクローン
+git clone <repository-url>
+cd portfolio-aws-infrastructure
 
-  ###  Docker関連
-  - [`Dockerfile`](Dockerfile) - 本番用コンテナ設定
-  - [`Dockerfile.dev`](Dockerfile.dev) - 開発用コンテナ設定
-  - [`docker-compose.yml`](docker-compose.yml) - 本番環境構成
-  - [`docker-compose.dev.yml`](docker-compose.dev.yml) - 開発環境構成
+# 依存関係インストール
+pip install -r src/requirements.txt
 
-  ##  クイックスタート
+# Docker環境起動
+docker-compose up -d
 
-  ### ローカル開発環境での作業開始
+# アプリケーション起動
+cd src
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+```
 
-  ### 前提条件
-  - AWS CLI設定済み
-  - Terraform インストール済み
-  - Docker インストール済み
-  - Python 3.11以上
+### **テスト実行**
+```bash
+# 全テスト実行
+pytest
 
-  ### ローカル開発環境起動
-  ```bash
-  # リポジトリクローン
-  git clone https://github.com/RinNakahata/portfolio-aws-infrastructure.git
-  cd portfolio-aws-infrastructure
+# 特定のテスト実行
+pytest tests/test_user_service.py -v
 
-  # 環境設定
-  cp .env.example .env
-  # .env ファイルを編集してAWS認証情報を設定
+# カバレッジ付きテスト実行
+pytest --cov=src --cov-report=html
+```
 
-  # 開発環境起動（DynamoDB Local付き）
-  docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+##  現在の開発進捗
 
-  # API動作確認
-  curl http://localhost:8000/api/v1/health
-  ```
+**現在の開発進捗**: **Phase 0-1 完了 - 設計・基盤・実装・テスト構築完了**
 
-  ### AWS環境構築
-  ```bash
-  # Terraformでインフラ構築
-  cd terraform
-  terraform init
-  terraform plan
-  terraform apply
+### **Phase 0 完了内容**
+- [x] **システム設計**: 7つの設計書が完成
+- [x] **インフラ設計**: Terraformコード完成
+- [x] **Python API設計**: FastAPI + DynamoDB完全アーキテクチャ
+- [x] **フロントエンド**: レスポンシブUI完成
+- [x] **CI/CD設定**: GitHub Actions完成
+- [x] **運用ドキュメント**: 11件の包括的なドキュメント完成
 
-  # CI/CDでの自動デプロイ
-  git push origin main  # GitHub Actionsで自動デプロイ
-  ```
+### **Phase 1 完了内容**
+- [x] **サービス層実装**: UserService・MetricServiceの完全実装
+- [x] **エラーハンドリング**: カスタム例外クラス・ハンドラー完成
+- [x] **構造化ログ**: 運用性を重視したログシステム完成
+- [x] **テストコード**: 包括的なテストスイート完成
+- [x] **設定管理**: 環境別設定ファイル完成
 
+### **次回作業予定（Phase 2-4）**
+1. **ローカル環境動作確認** - Docker環境でのAPI動作確認
+2. **AWS環境構築** - 実際のクラウド環境デプロイ・動作確認
+3. **最終調整** - 監視設定、スクリーンショット・動画記録、ポートフォリオ公開
 
-##  開発ステータス
+##  次のステップ
 
-**現在の開発進捗**: **Phase 0 完了 - 設計・基盤構築完了**
+**設計・実装・テストは完了**
 
-###  Phase 0 完了内容（2025-08-25）
-- ✅ **Terraformインフラコード**: 完全検証済み（VPC、ECS/Fargate、DynamoDB、S3、CloudFront）
-- ✅ **Python API設計**: FastAPI + DynamoDB完全アーキテクチャ
-- ✅ **Docker環境**: 本番・開発用コンテナ化完了
-- ✅ **CI/CD**: GitHub Actions設定済み
-- ✅ **開発準備**: 実装作業のための完全な準備完了
+次のフェーズでは以下の作業を行います：
 
-###  次回作業予定（Phase 1-4）
-1. **環境セットアップ** - 開発環境の最終確認・準備
-2. **アプリケーション実装** - API実装、DynamoDB連携、テスト作成
-3. **AWS環境構築** - 実際のクラウド環境デプロイ・動作確認
-4. **最終調整** - 監視設定、ドキュメント完成、ポートフォリオ公開
+1. **ローカル環境の動作確認**
+   - Docker環境起動
+   - APIエンドポイントの動作確認
+   - DynamoDB Localとの連携確認
 
-詳細な開発計画は `TODO.md` を参照してください。
+2. **AWS環境へのデプロイ**
+   - `terraform apply`の実行
+   - ECS/Fargateでの動作確認
+   - CloudWatch監視の確認
+
+3. **ポートフォリオ完成**
+   - スクリーンショット・動画記録
+   - 最終動作確認
+   - 環境クリーンアップ
+
+##  コスト最適化
+
+- **AWS Free Tier**: 12ヶ月間の無料利用
+- **ECS Fargate**: 使用時のみ課金
+- **DynamoDB**: 25GBまで無料
+- **S3**: 5GBまで無料
+- **CloudFront**: 1TBまで無料
+
+**月額予算**: $10以下を目標
+
+##  貢献方法
+
+1. このリポジトリをフォーク
+2. フィーチャーブランチを作成
+3. 変更をコミット
+4. プルリクエストを作成
 
 ##  ライセンス
 
-MIT License - 詳細は [LICENSE](LICENSE) ファイルを参照してください。
+このプロジェクトはMITライセンスの下で公開されています。
 
-##  作成者
+##  作者
 
-中畑 倫 _ Rin Nakahata
+**Rin Nakahata** - AWS環境構築スキル証明用ポートフォリオ
+
+---

@@ -89,9 +89,9 @@ variable "fargate_memory" {
 }
 
 variable "container_image" {
-  description = "Docker image to run in the ECS cluster"
+  description = "Docker image to run in the ECS cluster (default: use ECR repository URL)"
   type        = string
-  default     = "nginx:alpine" # Placeholder, will be updated with ECR image
+  default     = "" # Will default to ECR repository URL if not specified
 }
 
 # ==============================================================================

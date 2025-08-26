@@ -19,6 +19,7 @@ import uvicorn
 from app.routers import health, users, metrics
 from app.core.config import get_settings
 from app.core.logging import setup_logging
+from app.core.error_handlers import register_exception_handlers
 from app.dependencies import get_dynamodb_client
 
 # ログ設定
@@ -33,7 +34,7 @@ settings = get_settings()
 async def lifespan(app: FastAPI):
     """アプリケーションのライフサイクル管理"""
     logger.info("Starting Portfolio API application...")
-    
+
     # 起動時の処理
     try:
         # DynamoDB接続テスト
@@ -42,9 +43,9 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.error(f"Failed to connect to DynamoDB: {e}")
         raise
-    
+
     yield
-    
+
     # 終了時の処理
     logger.info("Shutting down Portfolio API application...")
 
@@ -68,6 +69,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# カスタムエラーハンドラーの登録
+register_exception_handlers(app)
 
 # ルーター登録
 app.include_router(health.router, prefix="/api/v1", tags=["health"])
@@ -86,31 +89,14 @@ async def root():
     }
 
 
-@app.exception_handler(HTTPException)
-async def http_exception_handler(request, exc):
-    """HTTP例外ハンドラー"""
-    return JSONResponse(
-        status_code=exc.status_code,
-        content={
-            "error": exc.detail,
-            "status_code": exc.status_code,
-            "timestamp": settings.get_current_timestamp()
-        }
-    )
-
-
-@app.exception_handler(Exception)
-async def general_exception_handler(request, exc):
-    """一般例外ハンドラー"""
-    logger.error(f"Unexpected error: {exc}")
-    return JSONResponse(
-        status_code=500,
-        content={
-            "error": "Internal server error",
-            "status_code": 500,
-            "timestamp": settings.get_current_timestamp()
-        }
-    )
+@app.get("/health")
+async def health_check():
+    """ヘルスチェックエンドポイント（ルートレベル）"""
+    return {
+        "status": "healthy",
+        "service": "Portfolio API",
+        "timestamp": settings.get_current_timestamp()
+    }
 
 
 if __name__ == "__main__":

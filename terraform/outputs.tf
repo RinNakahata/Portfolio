@@ -197,7 +197,12 @@ output "cloudwatch_log_group_arn" {
 
 output "ecr_repository_url" {
   description = "URL of the ECR repository"
-  value       = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/portfolio-api"
+  value       = aws_ecr_repository.api.repository_url
+}
+
+output "ecr_repository_name" {
+  description = "Name of the ECR repository"
+  value       = aws_ecr_repository.api.name
 }
 
 output "aws_account_id" {

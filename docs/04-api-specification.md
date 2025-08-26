@@ -3,10 +3,10 @@
 ##  文書情報
 
 - **作成日**: 2025-08-23
-- **バージョン**: v1.0
-- **API Version**: v1
+- **バージョン**: v1.1
+- **API Version**: v1 (実装では /api プレフィックス使用)
 - **作成者**: Rin Nakahata
-- **最終更新**: 2025-08-23
+- **最終更新**: 2025-08-25
 
 ---
 
@@ -19,14 +19,23 @@
 
 ### ベースURL
 ```
-Production:  https://api.portfolio-aws.com/v1
-Development: https://dev-api.portfolio-aws.com/v1
-Local:       http://localhost:8000/v1
+Production:  https://{ALB-DNS}/api  # ALBエンドポイント使用
+Development: http://localhost:8000  # ローカル開発環境
+Local:       http://localhost:8000  # Docker環境
 ```
+
+### 実際のエンドポイント構造
+- **ヘルスチェック**: `/health` (プレフィックスなし)
+- **API エンドポイント**: `/api/*` (apiプレフィックス付き)
 
 ### プロトコル
 - **HTTPS**: 本番環境
 - **HTTP**: 開発・ローカル環境
+
+### 自動生成ドキュメント
+FastAPIにより以下の対話的ドキュメントが自動生成されます：
+- **Swagger UI**: `/docs` - API仕様の確認・テスト
+- **ReDoc**: `/redoc` - API仕様の閲覧用
 
 ---
 
@@ -38,22 +47,22 @@ Local:       http://localhost:8000/v1
 | GET | `/health` | アプリケーション稼働状況 |
 | GET | `/health/db` | データベース接続確認 |
 
-### ユーザー管理
+### ユーザー管理 実装完了
 | Method | Endpoint | 説明 |
 |--------|----------|------|
-| GET | `/users` | ユーザー一覧取得 |
-| POST | `/users` | ユーザー新規作成 |
-| GET | `/users/{user_id}` | ユーザー詳細取得 |
-| PUT | `/users/{user_id}` | ユーザー情報更新 |
-| DELETE | `/users/{user_id}` | ユーザー削除 |
+| GET | `/api/users` | ユーザー一覧取得 |
+| POST | `/api/users` | ユーザー新規作成 |
+| GET | `/api/users/{user_id}` | ユーザー詳細取得 |
+| PUT | `/api/users/{user_id}` | ユーザー情報更新 |
+| DELETE | `/api/users/{user_id}` | ユーザー削除 |
 
-### IoTメトリクス管理
+### IoTメトリクス管理 実装完了
 | Method | Endpoint | 説明 |
 |--------|----------|------|
-| GET | `/metrics` | メトリクス一覧取得 |
-| POST | `/metrics` | メトリクス新規登録 |
-| GET | `/metrics/{device_id}` | デバイス別メトリクス取得 |
-| GET | `/metrics/latest` | 最新メトリクス取得 |
+| GET | `/api/metrics` | メトリクス一覧取得 |
+| POST | `/api/metrics` | メトリクス新規登録 |
+| GET | `/api/metrics/{device_id}` | デバイス別メトリクス取得 |
+| GET | `/api/metrics/latest` | 最新メトリクス取得 |
 
 ---
 

@@ -304,6 +304,94 @@ resource "aws_lb_listener" "app" {
 }
 
 # ==============================================================================
+# ECR REPOSITORY
+# ==============================================================================
+
+# ECR Repository for API container
+resource "aws_ecr_repository" "api" {
+  name                 = "${var.project_name}-api"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  encryption_configuration {
+    encryption_type = "AES256"
+  }
+
+  tags = {
+    Name = "${var.project_name}-api-ecr"
+  }
+}
+
+# ECR Repository Policy
+resource "aws_ecr_repository_policy" "api" {
+  repository = aws_ecr_repository.api.name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "AllowPushPull"
+        Effect = "Allow"
+        Principal = {
+          AWS = [
+            aws_iam_role.ecs_task_execution.arn,
+            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+          ]
+        }
+        Action = [
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:PutImage",
+          "ecr:InitiateLayerUpload",
+          "ecr:UploadLayerPart",
+          "ecr:CompleteLayerUpload"
+        ]
+      }
+    ]
+  })
+}
+
+# ECR Lifecycle Policy
+resource "aws_ecr_lifecycle_policy" "api" {
+  repository = aws_ecr_repository.api.name
+
+  policy = jsonencode({
+    rules = [
+      {
+        rulePriority = 1
+        description  = "Keep last 10 images"
+        selection = {
+          tagStatus     = "tagged"
+          tagPrefixList = ["v"]
+          countType     = "imageCountMoreThan"
+          countNumber   = 10
+        }
+        action = {
+          type = "expire"
+        }
+      },
+      {
+        rulePriority = 2
+        description  = "Delete untagged images older than 1 day"
+        selection = {
+          tagStatus   = "untagged"
+          countType   = "sinceImagePushed"
+          countUnit   = "days"
+          countNumber = 1
+        }
+        action = {
+          type = "expire"
+        }
+      }
+    ]
+  })
+}
+
+# ==============================================================================
 # ECS CLUSTER
 # ==============================================================================
 
@@ -336,6 +424,99 @@ resource "aws_ecs_cluster_capacity_providers" "main" {
     base              = 1
     weight            = 100
     capacity_provider = "FARGATE"
+  }
+}
+
+# ECS Task Definition
+resource "aws_ecs_task_definition" "api" {
+  family                   = "${var.project_name}-api"
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = var.container_cpu
+  memory                   = var.container_memory
+  execution_role_arn       = aws_iam_role.ecs_task_execution.arn
+  task_role_arn            = aws_iam_role.ecs_task.arn
+
+  container_definitions = jsonencode([
+    {
+      name      = "api"
+      image     = var.container_image != "" ? var.container_image : "${aws_ecr_repository.api.repository_url}:latest"
+      essential = true
+
+      portMappings = [
+        {
+          containerPort = 8000
+          protocol      = "tcp"
+        }
+      ]
+
+      environment = [
+        {
+          name  = "AWS_DEFAULT_REGION"
+          value = var.aws_region
+        },
+        {
+          name  = "ENVIRONMENT"
+          value = var.environment
+        }
+      ]
+
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          "awslogs-group"         = aws_cloudwatch_log_group.ecs.name
+          "awslogs-region"        = var.aws_region
+          "awslogs-stream-prefix" = "ecs"
+        }
+      }
+
+      healthCheck = {
+        command     = ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+        interval    = 30
+        timeout     = 5
+        retries     = 3
+        startPeriod = 60
+      }
+    }
+  ])
+
+  tags = {
+    Name = "${var.project_name}-api-task-definition"
+  }
+}
+
+# ECS Service
+resource "aws_ecs_service" "api" {
+  name            = "${var.project_name}-api-service"
+  cluster         = aws_ecs_cluster.main.id
+  task_definition = aws_ecs_task_definition.api.arn
+  desired_count   = var.desired_count
+  launch_type     = "FARGATE"
+
+  network_configuration {
+    subnets          = [aws_subnet.private_a.id, aws_subnet.private_b.id]
+    security_groups  = [aws_security_group.ecs.id]
+    assign_public_ip = false
+  }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.app.arn
+    container_name   = "api"
+    container_port   = 8000
+  }
+
+  deployment_configuration {
+    maximum_percent         = 200
+    minimum_healthy_percent = 100
+  }
+
+  depends_on = [
+    aws_lb_listener.app,
+    aws_iam_role_policy_attachment.ecs_task_execution,
+  ]
+
+  tags = {
+    Name = "${var.project_name}-api-service"
   }
 }
 

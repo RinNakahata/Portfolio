@@ -1,9 +1,10 @@
+# アーキテクチャ設計書
 ##  文書情報
 
 - **作成日**: 2025-08-23
-- **バージョン**: v1.0
+- **バージョン**: v1.1
 - **作成者**: Rin Nakahata
-- **最終更新**: 2025-08-23
+- **最終更新**: 2025-08-25
 
 ---
 
@@ -14,9 +15,11 @@ AWSインフラ構築スキルを証明するポートフォリオ作成
 
 ### 成果物
 - 実動するAWSインフラストラクチャ
-- インフラのコード化（Terraform）
-- ドキュメント一式
-- GitHub公開プロジェクト
+- インフラのコード化（Terraform） 
+- Python FastAPI バックエンド 
+- Docker 環境構築 
+- ドキュメント一式 
+- GitHub公開プロジェクト 
 
 ---
 
@@ -24,36 +27,54 @@ AWSインフラ構築スキルを証明するポートフォリオ作成
 
 ### 全体構成
 
+**静的コンテンツフロー (上部):**
 ```
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│   Internet   │───▶│  CloudFront  │───▶│      S3      │    │     User     │
-│   Gateway    │    │  (CDN/Cache) │    │ (Static Web) │    │  Interface   │
-└──────────────┘    └──────────────┘    └──────────────┘    └──────────────┘
-                                                                      │
-                                                                      ▼
-┌──────────────┐    ┌──────────────┐    ┌──────────────┐    ┌──────────────┐
-│    Route53   │───▶│   ALB/ELB    │───▶│ ECS/Fargate  │───▶│   DynamoDB   │
-│    (DNS)     │    │Load Balancer │    │Python API App│    │  (Database)  │
-└──────────────┘    └──────────────┘    └──────────────┘    └──────────────┘
-                                                │
-                                                ▼
-                                    ┌──────────────┐
-                                    │  CloudWatch  │
-                                    │ (Monitoring) │
-                                    └──────────────┘
+User Request → CloudFront (CDN) → S3 (Static Files)
 ```
+
+**動的APIフロー (下部):**
+```
+User Request → ALB/ELB → ECS/Fargate → DynamoDB → CloudWatch
+```
+
+**詳細なアーキテクチャ図:**
+```
++--------------+     +--------------+     +--------------+
+|    User      | --> |  CloudFront  | --> |      S3      |
+|   Request    |     |    (CDN)     |     |(Static Files)|
++--------------+     +--------------+     +--------------+
+        |
+        v
++--------------+     +--------------+     +--------------+     +--------------+
+|   ALB/ELB    | --> | ECS/Fargate  | --> |   DynamoDB   | --> |  CloudWatch  |
+| Load Balancer|     | Python API   |     |  (Database)  |     | (Monitoring) |
++--------------+     +--------------+     +--------------+     +--------------+
+
+```
+
+**フロー説明:**
+
+1. **静的コンテンツフロー**:
+   - ユーザーリクエスト → CloudFront CDN → S3静的ファイル
+   - フロントエンド・HTML/CSS/JS・画像ファイルの配信
+
+2. **動的APIフロー**:
+   - ユーザーリクエスト → ALB負荷分散 → ECS/Fargateコンテナ → DynamoDBデータベース → CloudWatch監視
+   - バックエンドAPI・データ処理・システム監視
 
 ### コンポーネント詳細
 
 #### フロントエンド層
 - **Amazon S3**: 静的Webコンテンツホスティング
 - **CloudFront**: CDNによる高速配信とキャッシュ
-- **Route53**: DNS管理（オプション）
 
 #### アプリケーション層
 - **Application Load Balancer (ALB)**: トラフィック分散
 - **Amazon ECS/Fargate**: コンテナオーケストレーション
-- **Python アプリケーション**: Flask/FastAPI による RESTful API
+- **Python アプリケーション**: FastAPI による RESTful API 実装完了
+  - ヘルスチェック API
+  - ユーザー管理 API（CRUD）
+  - IoTメトリクス管理 API
 
 #### データ層
 - **Amazon DynamoDB**: NoSQLデータベース
@@ -105,13 +126,18 @@ Outbound:
 
 ##  コンテナ設計
 
-### Docker構成
+### Docker構成 実装完了
 
 #### アプリケーションコンテナ
 - **ベースイメージ**: python:3.11-slim
-- **アプリケーション**: Flask/FastAPI
+- **アプリケーション**: FastAPI
 - **ポート**: 8000
 - **ヘルスチェック**: `/health` エンドポイント
+- **実装状況**:
+  - 本番用 Dockerfile: Multi-stage build 対応
+  - 開発用 Dockerfile: Hot reload 対応
+  - docker-compose.yml: 本番環境構成
+  - docker-compose.dev.yml: 開発環境（DynamoDB Local含む）
 
 #### ECSタスク定義
 ```json
@@ -268,4 +294,25 @@ graph LR
 
 ---
 
-**次回更新予定**: システム要件定義完了後
+## プロジェクト進捗状況（2025-08-25更新）
+
+### Phase 1: 基盤構築 完了
+- [x] Terraform インフラコード実装・検証
+- [x] Python FastAPI バックエンド完全実装
+- [x] Docker 環境構築（本番・開発）
+- [x] 静的フロントエンド実装
+
+### Phase 2: 統合・デプロイ （進行中）
+- [ ] ローカル環境でのDocker統合テスト
+- [ ] AWS環境構築（Terraform apply）
+- [ ] ECRへのDockerイメージデプロイ
+- [ ] ECS環境での統合テスト
+
+### Phase 3: 運用・監視
+- [ ] CloudWatch監視設定
+- [ ] ログ管理設定
+- [ ] アラート設定
+
+---
+
+**最終更新**: 2025-08-25 - Phase 1完了、Phase 2開始準備完了
