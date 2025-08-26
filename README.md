@@ -260,6 +260,6 @@ pytest --cov=src --cov-report=html
 
 ##  作者
 
-**Rin Nakahata** - AWS環境構築スキル証明用ポートフォリオ
+**Rin Nakahata** 
 
 ---
