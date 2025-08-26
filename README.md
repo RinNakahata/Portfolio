@@ -167,7 +167,7 @@ portfolio-aws-infrastructure/
 ```bash
 # リポジトリクローン
 git clone https://github.com/RinNakahata/Portfolio.git
-cd portfolio-aws-infrastructure
+cd Portfolio
 
 # 依存関係インストール
 pip install -r src/requirements.txt
