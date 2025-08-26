@@ -1,4 +1,4 @@
-#  Portfolio AWS Infrastructure - 開発計画・進捗管理
+#  Portfolio - 開発計画・進捗管理
 
 **最終更新**: 2025-08-25
 
