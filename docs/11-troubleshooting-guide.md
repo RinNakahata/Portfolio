@@ -1,16 +1,15 @@
-#  トラブルシューティングガイド - AWS Portfolio Infrastructure
+#  トラブルシューティングガイド
 
 ##  文書情報
 
 - **作成日**: 2025-08-23
 - **バージョン**: v1.0
-- **適用環境**: AWS Portfolio Project
 - **作成者**: Rin Nakahata
 - **最終更新**: 2025-08-23
 
 ##  概要
 
-本ドキュメントは、AWS Portfolio Infrastructureの運用において発生する可能性のある問題とその解決方法を体系的に整理したものです。
+本ドキュメントは、本ポートフォリオの運用において発生する可能性のある問題とその解決方法を体系的に整理したものです。
 
 **対象環境**: 本番環境（AWS）
 **更新頻度**: 随時更新
@@ -486,4 +485,5 @@ aws logs filter-log-events --log-group-name [cloudtrail-log-group] --filter-patt
 - `docs/10-operations-report.md` - 運用報告書
 
 ---
+
 
