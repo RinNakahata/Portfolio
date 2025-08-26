@@ -260,6 +260,6 @@ pytest --cov=src --cov-report=html
 
 ##  作者
 
-**Rin Nakahata** 
+**中畑 倫 (Rin Nakahata)** 
 
 ---
