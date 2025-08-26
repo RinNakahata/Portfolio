@@ -1,10 +1,9 @@
-#  管理台帳 - AWS Portfolio Infrastructure
+#  管理台帳
 
 ##  文書情報
 
 - **作成日**: 2025-08-23
 - **バージョン**: v1.0
-- **適用環境**: AWS Portfolio Project
 - **作成者**: Rin Nakahata
 - **最終更新**: 2025-08-23
 
@@ -291,3 +290,4 @@
 - `docs/11-troubleshooting-guide.md` - トラブルシューティングガイド
 
 ---
+
