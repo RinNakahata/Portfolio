@@ -14,7 +14,7 @@
     <header class="header">
       <nav class="nav">
         <div class="nav-container">
-          <h1 class="nav-title">Rin Nakahata Portfolio</h1>
+          <h1 class="nav-title">Rin Nakahata's Portfolio</h1>
           <ul class="nav-menu">
             <li><a href="#overview">概要</a></li>
             <li><a href="#architecture">アーキテクチャ</a></li>
@@ -29,15 +29,32 @@
       <!-- Hero Section -->
       <section class="hero">
         <div class="container">
-          <h1 class="hero-title">AWS Infrastructure</h1>
-          <p class="hero-subtitle">
-            AWS環境構築スキルを証明するための包括的なポートフォリオプロジェクト。<br />IaC化、コンテナ化、CI/CD、モニタリングなど<br />実務で求められるスキルを網羅的に実装。
-          </p>
-          <div class="hero-buttons">
-            <a href="#architecture" class="btn btn-primary"
-              >アーキテクチャを見る</a
-            >
-            <a href="#api" class="btn btn-secondary">API仕様を確認</a>
+          <div class="hero-content">
+            <div class="hero-profile">
+              <a
+                href="https://github.com/RinNakahata"
+                target="_blank"
+                class="profile-link"
+              >
+                <img
+                  src="Profile_imege.jpg"
+                  alt="Rin Nakahata Profile"
+                  class="profile-image"
+                />
+              </a>
+            </div>
+            <div class="hero-text">
+              <h1 class="hero-title">Rin Nakahata's Portfolio</h1>
+              <p class="hero-subtitle">
+                AWS環境構築スキルを証明するための包括的なポートフォリオプロジェクト<br />IaC化、コンテナ化、CI/CD、モニタリングなど<br />実務で求められるスキルを網羅的に実装
+              </p>
+              <div class="hero-buttons">
+                <a href="#architecture" class="btn btn-primary"
+                  >アーキテクチャを見る</a
+                >
+                <a href="#api" class="btn btn-secondary">API仕様を確認</a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -47,23 +64,35 @@
         <div class="container">
           <h2 class="section-title">システム概要</h2>
           <div class="grid">
-            <div class="card">
+            <a
+              class="card card-link"
+              href="https://github.com/RinNakahata/Portfolio/blob/main/docs/01-architecture.md"
+              target="_blank"
+            >
               <i class="fas fa-cloud card-icon"></i>
               <h3>AWS ネイティブ実装</h3>
               <p>
                 ECS+Fargate<br />DynamoDB<br />S3+CloudFront<br />を活用したサーバーレス構成
               </p>
-            </div>
-            <div class="card">
+            </a>
+            <a
+              class="card card-link"
+              href="https://github.com/RinNakahata/Portfolio/tree/main/terraform"
+              target="_blank"
+            >
               <i class="fas fa-code card-icon"></i>
               <h3>コードによるインフラ管理</h3>
               <p>Terraformによる<br />完全コードされたインフラ構築</p>
-            </div>
-            <div class="card">
+            </a>
+            <a
+              class="card card-link"
+              href="https://github.com/RinNakahata/Portfolio/tree/main/docker"
+              target="_blank"
+            >
               <i class="fas fa-docker card-icon"></i>
               <h3>コンテナ化</h3>
               <p>Dockerによる<br />アプリケーション標準化と可搬性の実現</p>
-            </div>
+            </a>
           </div>
         </div>
       </section>
@@ -73,13 +102,6 @@
         <div class="container">
           <h2 class="section-title">システムアーキテクチャ</h2>
           <div class="architecture-content">
-            <div class="architecture-image">
-              <img
-                src="aws-architecture.png"
-                alt="AWS Architecture Diagram"
-                class="diagram-image"
-              />
-            </div>
             <div class="architecture-description">
               <h3>主要コンポーネント</h3>
               <ul class="tech-list">
@@ -104,6 +126,13 @@
                   <strong>CloudWatch</strong> - 監視・ログ管理
                 </li>
               </ul>
+            </div>
+            <div class="architecture-image">
+              <img
+                src="aws-architecture.png"
+                alt="AWS Architecture Diagram"
+                class="diagram-image"
+              />
             </div>
           </div>
         </div>
@@ -186,7 +215,7 @@ APIテストボタンをクリックしてください</pre
             <ul>
               <li>
                 <a
-                  href="https://github.com/RinNakahata/portfolio-aws-infrastructure"
+                  href="https://github.com/RinNakahata/Portfolio"
                   target="_blank"
                 >
                   <i class="fab fa-github"></i> GitHub リポジトリ
@@ -194,7 +223,7 @@ APIテストボタンをクリックしてください</pre
               </li>
               <li>
                 <a
-                  href="https://github.com/RinNakahata/portfolio-aws-infrastructure/tree/main/docs"
+                  href="https://github.com/RinNakahata/Portfolio/tree/main/docs"
                   target="_blank"
                 >
                   <i class="fas fa-file-alt"></i> 設計書
@@ -204,8 +233,7 @@ APIテストボタンをクリックしてください</pre
           </div>
           <div class="footer-section">
             <h3>お問い合わせ</h3>
-            <p>ポートフォリオプロジェクト</p>
-            <p>AWS Infrastructure Specialist</p>
+            <p>rin.nakahata@gmail.com</p>
           </div>
         </div>
         <div class="footer-bottom">
