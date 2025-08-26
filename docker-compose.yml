@@ -1,4 +1,4 @@
-# Portfolio AWS Infrastructure - Docker Compose Configuration
+# Portfolio - Docker Compose Configuration
 # ローカル開発環境用
 
 version: '3.8'
