@@ -75,7 +75,7 @@ User Request → ALB/ELB → ECS/Fargate → DynamoDB → CloudWatch
 ##  プロジェクト構造
 
 ```
-portfolio-aws-infrastructure/
+Portfolio/
 ├── 📁 docs/                          # 設計・運用ドキュメント
 │   ├── 01-architecture.md            # システムアーキテクチャ
 │   ├── 02-system-requirements.md     # システム要件定義
