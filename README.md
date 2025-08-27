@@ -1,4 +1,4 @@
-#  Rin Nakahata's Portfolio
+#  Portfolio
 <!-- インフラストラクチャ -->
 [![AWS](https://img.shields.io/badge/AWS-Cloud-FF9900?style=flat&logo=amazon-aws&logoColor=white)](https://aws.amazon.com/)
 [![Terraform](https://img.shields.io/badge/Terraform-5.0-7B42BC?style=flat&logo=terraform&logoColor=white)](https://www.terraform.io/)
