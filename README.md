@@ -1,4 +1,24 @@
 #  Rin Nakahata's Portfolio
+<!-- インフラストラクチャ -->
+[![AWS](https://img.shields.io/badge/AWS-Cloud-FF9900?style=flat&logo=amazon-aws&logoColor=white)](https://aws.amazon.com/)
+[![Terraform](https://img.shields.io/badge/Terraform-5.0-7B42BC?style=flat&logo=terraform&logoColor=white)](https://www.terraform.io/)
+[![Docker](https://img.shields.io/badge/Docker-Container-2496ED?style=flat&logo=docker&logoColor=white)](https://www.docker.com/)
+
+<!-- バックエンド -->
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104-009688?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Pydantic](https://img.shields.io/badge/Pydantic-2.0-E92063?style=flat&logo=pydantic&logoColor=white)](https://pydantic.dev/)
+
+<!-- フロントエンド -->
+[![HTML5](https://img.shields.io/badge/HTML5-Semantic-E34F26?style=flat&logo=html5&logoColor=white)](https://developer.mozilla.org/docs/Web/HTML)
+[![CSS3](https://img.shields.io/badge/CSS3-Responsive-1572B6?style=flat&logo=css3&logoColor=white)](https://developer.mozilla.org/docs/Web/CSS)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://developer.mozilla.org/docs/Web/JavaScript)
+[![Chart.js](https://img.shields.io/badge/Chart.js-4.0-FF6384?style=flat&logo=chart.js&logoColor=white)](https://www.chartjs.org/)
+
+<!-- 開発・運用 -->
+[![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-CI/CD-2088FF?style=flat&logo=github-actions&logoColor=white)](https://github.com/features/actions)
+[![pytest](https://img.shields.io/badge/pytest-Testing-0A9EDC?style=flat&logo=pytest&logoColor=white)](https://pytest.org/)
+[![Black](https://img.shields.io/badge/Black-Code%20Formatter-000000?style=flat&logo=python&logoColor=white)](https://black.readthedocs.io/)
 
 初めまして。中畑 倫 (Rin Nakahata)と申します。
 ご覧いただきありがとうございます。
