@@ -8,8 +8,7 @@
  ### **このポートフォリオで最も重要視していただきたいのは、ドキュメント作成力とAWS環境設計スキルです。**
 
 ### **主要評価対象**
-1. **[要件定義書](./docs/Requirements%20Definition.md)** - 要件整理・プロジェクト設計力の実証
-2. **[技術改善提案書](./docs/Technical_Proposal.md)** - システム設計・アーキテクチャ設計力の実証
+- **[アーキテクチャ設計書などのドキュメント](./docs)**
 
 ### **技術実装について**
 Next.jsアプリケーションは**技術改善提案を実証するためのMVP実装**です。  
@@ -92,7 +91,7 @@ User Request → ALB/ELB → ECS/Fargate → DynamoDB → CloudWatch
 ```
 Portfolio/
 ├── 📁 docs/                          # 設計・運用ドキュメント
-│   ├── 01-architecture.md            # システムアーキテクチャ
+│   ├── 01-architecture.md            # アーキテクチャ設計書
 │   ├── 02-system-requirements.md     # システム要件定義
 │   ├── 03-technology-selection.md    # 技術選定書
 │   ├── 04-api-specification.md       # API仕様書
