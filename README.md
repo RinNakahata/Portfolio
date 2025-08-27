@@ -20,9 +20,12 @@
 [![pytest](https://img.shields.io/badge/pytest-Testing-0A9EDC?style=flat&logo=pytest&logoColor=white)](https://pytest.org/)
 [![Black](https://img.shields.io/badge/Black-Code%20Formatter-000000?style=flat&logo=python&logoColor=white)](https://black.readthedocs.io/)
 
+---
+
 初めまして。中畑 倫 (Rin Nakahata)と申します。
 ご覧いただきありがとうございます。
 
+---
 ## 本ポートフォリオの評価ポイント
 
  ### **このポートフォリオで最も重要視していただきたいのは、ドキュメント作成力とAWS環境設計スキルです。**
